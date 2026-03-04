@@ -46,4 +46,6 @@ As a team, we found the variables for the dataset:
 16.       Neighborhood      Character     Neighborhood classification                         Categories
 
 
-- Step 2 (Yash's work): We choose "Sale Price" as the main variable for our work. 
+- Step 2 (Yash's work): We choose "Sale Price" as the main variable for our work.
+
+- Step 3 (Kate's work): The range is max - min which is 20500000 - 0 = 20500000.

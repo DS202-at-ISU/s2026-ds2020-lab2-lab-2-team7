@@ -19,7 +19,7 @@ you are done with your submission.
 
 library(classdata) data(“ames”) head(ames)
 
-Step 1 Result:
+Step 1 Result (Abhi’s Work):
 
 As a team, we found the variables for the dataset: Variable Type Meaning
 Expected Range 1. Parcel ID Character Unique property identifier Unique
@@ -36,3 +36,9 @@ FinishedBsmtArea Numeric Finished basement area in square feet 0–3000
 Character Whether home has air conditioning Yes/No 15. FirePlace
 Character Whether home has fireplace Yes/No 16. Neighborhood Character
 Neighborhood classification Categories
+
+- Step 2 (Yash’s work): We choose “Sale Price” as the main variable for
+  our work.
+
+- Step 3 (Kate’s work): The range is max - min which is 20500000 - 0 =
+  20500000.
