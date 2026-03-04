@@ -48,4 +48,15 @@ As a team, we found the variables for the dataset:
 
 - Step 2 (Yash's work): We choose "Sale Price" as the main variable for our work.
 
-- Step 3 (Kate's work): The range is max - min which is 20500000 - 0 = 20500000.
+- Step 3 (Kate's work): The range is max - min which is 20500000 - 0 = 20500000. The data is skewed right with 2 significant outliers at ~2mil and ~1.5mil. However, most of the data falls below 200k.
+```{r}
+library(classdata)
+library(ggplot2)
+
+salePrice <- ames$`Sale Price`
+range <- max(salePrice) - min(salePrice)
+
+ggplot(ames, aes(x = salePrice)) +
+  geom_histogram(binwidth = 500000, color = "black", fill = "gray")
+
+```
