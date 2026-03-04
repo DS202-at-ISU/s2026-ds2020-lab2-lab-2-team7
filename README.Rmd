@@ -68,7 +68,7 @@ ggplot(ames, aes(x = `Sale Price`)) +
 ```{r}
 sum(ames$`Sale Price` == 0)
 ```
-- Step 3 continuation(Yash's work): Upon plotting the histogram, I noticed there were 2206 observations at $0 for sale price. These likely indicate placeholder, or missing values since houses are never sold for free. Extreme outliers such as prices around 15-21 million dollars are not shown in the plot to better visualize the overall distribution of the sale prices, and to make the plot readable.
+- Step 3 continuation (Yash's work): Upon plotting the histogram, I noticed there were 2206 observations at 0 dollars for sale price. These likely indicate placeholder, or missing values since houses are never sold for free. Extreme outliers such as prices around 15-21 million dollars are not shown in the plot to better visualize the overall distribution of the sale prices, and to make the plot readable. After doing so, the distribution appears right skewed, with most homes selling between approximately 100000 and 300000 dollars respectively, with the most amount of houses selling at 200000 dollars. 
 
 Step 4:  
 - Abhi's work:  
@@ -125,4 +125,3 @@ ggplot(ames_clean, aes(x = `TotalLivingArea (sf)`, y = `Sale Price`)) +
 ```
   
 After removing homes with Sale Price equal to 0 and extreme outliers above $1,000,000, the relationship between Total Living Area and Sale Price shows a clear positive linear trend. Larger homes generally sell for higher prices. Most homes fall between 1,000 and 2,500 square feet and sell between $100,000 and $400,000. There is greater variability in sale price among larger homes. The very large homes help explain the extreme high sale price outliers observed in Step 3, as properties with greater square footage tend to command much higher prices and contribute to the right-skew. However, this variable does not explain the $0 sale prices, which likely represent missing or incorrectly recorded data.
-

@@ -180,3 +180,14 @@ extreme high sale price outliers observed in Step 3, as properties with
 greater square footage tend to command much higher prices and contribute
 to the right-skew. However, this variable does not explain the \$0 sale
 prices, which likely represent missing or incorrectly recorded data.
+
+======= - Step 3 continuation (Yash’s work): Upon plotting the
+histogram, I noticed there were 2206 observations at 0 dollars for sale
+price. These likely indicate placeholder, or missing values since houses
+are never sold for free. Extreme outliers such as prices around 15-21
+million dollars are not shown in the plot to better visualize the
+overall distribution of the sale prices, and to make the plot readable.
+After doing so, the distribution appears right skewed, with most homes
+selling between approximately 100000 and 300000 dollars respectively,
+with the most amount of houses selling at 200000 dollars. \>\>\>\>\>\>\>
+2b6da73b5e6a912482951ee07c14ad8ba0c40443
