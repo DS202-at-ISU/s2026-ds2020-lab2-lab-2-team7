@@ -50,6 +50,8 @@ As a team, we found the variables for the dataset:
 
 - Step 3 (Kate's work): The range is max - min which is 20500000 - 0 = 20500000. The data is skewed right with 2 significant outliers at ~2mil and ~1.5mil. However, most of the data falls below 200k.
 ```{r}
+library(classdata)
+data("ames")
 library(ggplot2)
 library(scales)
 
@@ -67,3 +69,60 @@ ggplot(ames, aes(x = `Sale Price`)) +
 sum(ames$`Sale Price` == 0)
 ```
 - Step 3 continuation(Yash's work): Upon plotting the histogram, I noticed there were 2206 observations at $0 for sale price. These likely indicate placeholder, or missing values since houses are never sold for free. Extreme outliers such as prices around 15-21 million dollars are not shown in the plot to better visualize the overall distribution of the sale prices, and to make the plot readable.
+
+Step 4:  
+- Abhi's work:  
+  
+I chose **TotalLivingArea (sf)** as a variable that may be related to the main variable, **Sale Price**, because larger homes are generally expected to sell for higher prices.  
+  
+**Range of TotalLivingArea (sf)**. 
+```{r}
+living_area <- ames$`TotalLivingArea (sf)`
+
+min(living_area, na.rm = TRUE)
+max(living_area, na.rm = TRUE)
+```
+From the output, the minimum is 0 square feet, the maximum is 6007 square feet, so the range would be 0 square feet to 6007 square feet. The minimum value of 0 sq ft is unusual and likely represents missing or incorrectly entered data.  
+  
+**Distribution of TotalLivingArea (sf)**. 
+```{r}
+library(ggplot2)
+
+ggplot(ames, aes(x = `TotalLivingArea (sf)`)) +
+  geom_histogram(binwidth = 250, color = "black", fill = "lightblue") +
+  labs(
+    title = "Distribution of Total Living Area",
+    x = "Total Living Area (sq ft)",
+    y = "Count"
+  )
+```
+  
+The distribution is right-skewed. Most homes fall between 1,000 and 2,500 square feet. 
+A small number of homes are very large (above 4,000 sq ft). 
+There are also a few values near 0 sq ft, which appear suspicious.
+  
+**Relationship Between TotalLivingArea and Sale Price**. 
+```{r}
+library(classdata)
+library(dplyr)
+library(ggplot2)
+
+data("ames")
+
+ames_clean <- ames %>%
+  filter(`Sale Price` > 0,
+         `Sale Price` < 1000000,
+         `TotalLivingArea (sf)` > 0)
+
+ggplot(ames_clean, aes(x = `TotalLivingArea (sf)`, y = `Sale Price`)) +
+  geom_point(alpha = 0.5) +
+  geom_smooth(method = "lm", se = FALSE, color = "blue") +
+  labs(
+    title = "Sale Price vs Total Living Area (Cleaned Data)",
+    x = "Total Living Area (sq ft)",
+    y = "Sale Price ($)"
+  )
+```
+  
+After removing homes with Sale Price equal to 0 and extreme outliers above $1,000,000, the relationship between Total Living Area and Sale Price shows a clear positive linear trend. Larger homes generally sell for higher prices. Most homes fall between 1,000 and 2,500 square feet and sell between $100,000 and $400,000. There is greater variability in sale price among larger homes. The very large homes help explain the extreme high sale price outliers observed in Step 3, as properties with greater square footage tend to command much higher prices and contribute to the right-skew. However, this variable does not explain the $0 sale prices, which likely represent missing or incorrectly recorded data.
+

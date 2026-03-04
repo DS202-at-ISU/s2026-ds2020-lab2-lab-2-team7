@@ -46,13 +46,137 @@ Neighborhood classification Categories
 
 ``` r
 library(classdata)
+data("ames")
 library(ggplot2)
+library(scales)
 
-salePrice <- ames$`Sale Price`
-range <- max(salePrice) - min(salePrice)
-
-ggplot(ames, aes(x = salePrice)) +
-  geom_histogram(binwidth = 500000, color = "black", fill = "gray")
+ggplot(ames, aes(x = `Sale Price`)) +
+  geom_histogram(binwidth = 50000, color = "black", fill = "gray") +
+  coord_cartesian(xlim = c(0, 600000)) +
+  scale_x_continuous(labels = label_dollar()) +
+  labs(
+    title = "Distribution of Ames Home Sale Prices",
+    x = "Sale Price",
+    y = "Number of Homes"
+  )
 ```
 
 ![](README_files/figure-gfm/unnamed-chunk-1-1.png)<!-- -->
+
+``` r
+sum(ames$`Sale Price` == 0)
+```
+
+    ## [1] 2206
+
+- Step 3 continuation(Yash’s work): Upon plotting the histogram, I
+  noticed there were 2206 observations at \$0 for sale price. These
+  likely indicate placeholder, or missing values since houses are never
+  sold for free. Extreme outliers such as prices around 15-21 million
+  dollars are not shown in the plot to better visualize the overall
+  distribution of the sale prices, and to make the plot readable.
+
+Step 4:  
+- Abhi’s work:
+
+I chose **TotalLivingArea (sf)** as a variable that may be related to
+the main variable, **Sale Price**, because larger homes are generally
+expected to sell for higher prices.
+
+**Range of TotalLivingArea (sf)**.
+
+``` r
+living_area <- ames$`TotalLivingArea (sf)`
+
+min(living_area, na.rm = TRUE)
+```
+
+    ## [1] 0
+
+``` r
+max(living_area, na.rm = TRUE)
+```
+
+    ## [1] 6007
+
+From the output, the minimum is 0 square feet, the maximum is 6007
+square feet, so the range would be 0 square feet to 6007 square feet.
+The minimum value of 0 sq ft is unusual and likely represents missing or
+incorrectly entered data.
+
+**Distribution of TotalLivingArea (sf)**.
+
+``` r
+library(ggplot2)
+
+ggplot(ames, aes(x = `TotalLivingArea (sf)`)) +
+  geom_histogram(binwidth = 250, color = "black", fill = "lightblue") +
+  labs(
+    title = "Distribution of Total Living Area",
+    x = "Total Living Area (sq ft)",
+    y = "Count"
+  )
+```
+
+    ## Warning: Removed 447 rows containing non-finite outside the scale range
+    ## (`stat_bin()`).
+
+![](README_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
+
+The distribution is right-skewed. Most homes fall between 1,000 and
+2,500 square feet. A small number of homes are very large (above 4,000
+sq ft). There are also a few values near 0 sq ft, which appear
+suspicious.
+
+**Relationship Between TotalLivingArea and Sale Price**.
+
+``` r
+library(classdata)
+library(dplyr)
+```
+
+    ## 
+    ## Attaching package: 'dplyr'
+
+    ## The following objects are masked from 'package:stats':
+    ## 
+    ##     filter, lag
+
+    ## The following objects are masked from 'package:base':
+    ## 
+    ##     intersect, setdiff, setequal, union
+
+``` r
+library(ggplot2)
+
+data("ames")
+
+ames_clean <- ames %>%
+  filter(`Sale Price` > 0,
+         `Sale Price` < 1000000,
+         `TotalLivingArea (sf)` > 0)
+
+ggplot(ames_clean, aes(x = `TotalLivingArea (sf)`, y = `Sale Price`)) +
+  geom_point(alpha = 0.5) +
+  geom_smooth(method = "lm", se = FALSE, color = "blue") +
+  labs(
+    title = "Sale Price vs Total Living Area (Cleaned Data)",
+    x = "Total Living Area (sq ft)",
+    y = "Sale Price ($)"
+  )
+```
+
+    ## `geom_smooth()` using formula = 'y ~ x'
+
+![](README_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
+
+After removing homes with Sale Price equal to 0 and extreme outliers
+above \$1,000,000, the relationship between Total Living Area and Sale
+Price shows a clear positive linear trend. Larger homes generally sell
+for higher prices. Most homes fall between 1,000 and 2,500 square feet
+and sell between \$100,000 and \$400,000. There is greater variability
+in sale price among larger homes. The very large homes help explain the
+extreme high sale price outliers observed in Step 3, as properties with
+greater square footage tend to command much higher prices and contribute
+to the right-skew. However, this variable does not explain the \$0 sale
+prices, which likely represent missing or incorrectly recorded data.
