@@ -50,6 +50,8 @@ As a team, we found the variables for the dataset:
 
 - Step 3 (Kate's work): The range is max - min which is 20500000 - 0 = 20500000. The data is skewed right with 2 significant outliers at ~2mil and ~1.5mil. However, most of the data falls below 200k.
 ```{r}
+library(classdata)
+data("ames")
 library(ggplot2)
 library(scales)
 
@@ -66,4 +68,4 @@ ggplot(ames, aes(x = `Sale Price`)) +
 ```{r}
 sum(ames$`Sale Price` == 0)
 ```
-- Step 3 continuation(Yash's work): Upon plotting the histogram, I noticed there were 2206 observations at $0 for sale price. These likely indicate placeholder, or missing values since houses are never sold for free. Extreme outliers such as prices around 15-21 million dollars are not shown in the plot to better visualize the overall distribution of the sale prices, and to make the plot readable.
+- Step 3 continuation (Yash's work): Upon plotting the histogram, I noticed there were 2206 observations at 0 dollars for sale price. These likely indicate placeholder, or missing values since houses are never sold for free. Extreme outliers such as prices around 15-21 million dollars are not shown in the plot to better visualize the overall distribution of the sale prices, and to make the plot readable. After doing so, the distribution appears right skewed, with most homes selling between approximately 100000 and 300000 dollars respectively, with the most amount of houses selling at 200000 dollars. 
