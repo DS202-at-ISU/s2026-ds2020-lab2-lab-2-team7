@@ -18,33 +18,95 @@ Include your answers in this document (Rmd file). Make sure that it knits proper
 All submissions to the github repo will be automatically uploaded for grading once the due date is passed.
 Submit a link to your repository on Canvas (only one submission per team) to signal to the instructors that you are done with your submission.
 
+Step 1 Result (Abhi's Work):
 
-
+```{r}
 library(classdata)
 data("ames")
 head(ames)
+```
 
-Step 1 Result (Abhi's Work):
+```{r}
+library(tibble)
+library(knitr)
 
-As a team, we found the variables for the dataset:
-          Variable          Type          Meaning                                             Expected Range
-1.        Parcel ID         Character     Unique property identifier                          Unique values
-2.        Address           Character     Property address                                    Text
-3.        Style             Character     Building style                                      Categories
-4.        Occupancy         Character     Type of occupancy                                   Categories
-5.        Sale Date         Date          Date property was sold                              2017–2024+
-6.        Sale Price        Numeric       Final sale price in dollars                         0 – 1,000,000+
-7.        Multi Sale        Character     Whether multiple sales occurred                     NA/Yes
-8.        YearBuilt         Numeric       Year property was built                             1900–2024
-9.        Acres             Numeric       Lot size in Acres                                   0–5+
-10.       TotalLivingArea   Numeric       Total above-ground living area in square feet       500–5000+
-11.       Bedrooms          Numeric       Number of bedrooms                                  0-6
-12.       FinishedBsmtArea  Numeric       Finished basement area in square feet               0–3000
-13.       LotArea           Numeric       Lot size in square feet                             1,000–50,000+
-14.       AC                Character     Whether home has air conditioning                   Yes/No
-15.       FirePlace         Character     Whether home has fireplace                          Yes/No
-16.       Neighborhood      Character     Neighborhood classification                         Categories
+step1_table <- tibble(
+  Variable = c(
+    "Parcel ID",
+    "Address",
+    "Style",
+    "Occupancy",
+    "Sale Date",
+    "Sale Price",
+    "Multi Sale",
+    "YearBuilt",
+    "Acres",
+    "TotalLivingArea (sf)",
+    "Bedrooms",
+    "FinishedBsmtArea (sf)",
+    "LotArea (sf)",
+    "AC",
+    "FirePlace",
+    "Neighborhood"
+  ),
+  Type = c(
+    "Character",
+    "Character",
+    "Character",
+    "Character",
+    "Date",
+    "Numeric",
+    "Character",
+    "Numeric",
+    "Numeric",
+    "Numeric",
+    "Numeric",
+    "Numeric",
+    "Numeric",
+    "Character",
+    "Character",
+    "Character"
+  ),
+  Meaning = c(
+    "Unique property identifier",
+    "Property address",
+    "Building style",
+    "Type of occupancy",
+    "Date property was sold",
+    "Final sale price in dollars",
+    "Whether multiple sales occurred",
+    "Year property was built",
+    "Lot size in acres",
+    "Total above-ground living area in square feet",
+    "Number of bedrooms",
+    "Finished basement area in square feet",
+    "Lot size in square feet",
+    "Whether home has air conditioning",
+    "Whether home has fireplace",
+    "Neighborhood classification"
+  ),
+  Expected_Range = c(
+    "Unique values",
+    "Text",
+    "Categories",
+    "Categories",
+    "2017–2024+",
+    "0–1,000,000+",
+    "NA/Yes",
+    "1900–2024",
+    "0–5+",
+    "500–5000+",
+    "0–6",
+    "0–3000",
+    "1,000–50,000+",
+    "Yes/No",
+    "Yes/No",
+    "Categories"
+  )
+)
 
+kable(step1_table, caption = "Step 1: Dataset Variables Overview")
+```
 
 - Step 2 (Yash's work): We choose "Sale Price" as the main variable for our work.
 

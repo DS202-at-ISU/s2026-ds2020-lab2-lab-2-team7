@@ -17,25 +17,145 @@ grading once the due date is passed. Submit a link to your repository on
 Canvas (only one submission per team) to signal to the instructors that
 you are done with your submission.
 
-library(classdata) data(“ames”) head(ames)
-
 Step 1 Result (Abhi’s Work):
 
-As a team, we found the variables for the dataset: Variable Type Meaning
-Expected Range 1. Parcel ID Character Unique property identifier Unique
-values 2. Address Character Property address Text 3. Style Character
-Building style Categories 4. Occupancy Character Type of occupancy
-Categories 5. Sale Date Date Date property was sold 2017–2024+ 6. Sale
-Price Numeric Final sale price in dollars 0 – 1,000,000+ 7. Multi Sale
-Character Whether multiple sales occurred NA/Yes 8. YearBuilt Numeric
-Year property was built 1900–2024 9. Acres Numeric Lot size in Acres
-0–5+ 10. TotalLivingArea Numeric Total above-ground living area in
-square feet 500–5000+ 11. Bedrooms Numeric Number of bedrooms 0-6 12.
-FinishedBsmtArea Numeric Finished basement area in square feet 0–3000
-13. LotArea Numeric Lot size in square feet 1,000–50,000+ 14. AC
-Character Whether home has air conditioning Yes/No 15. FirePlace
-Character Whether home has fireplace Yes/No 16. Neighborhood Character
-Neighborhood classification Categories
+``` r
+library(classdata)
+data("ames")
+head(ames)
+```
+
+    ##    Parcel ID                       Address             Style
+    ## 1 0903202160      1024 RIDGEWOOD AVE, AMES 1 1/2 Story Frame
+    ## 2 0907428215 4503 TWAIN CIR UNIT 105, AMES     1 Story Frame
+    ## 3 0909428070        2030 MCCARTHY RD, AMES     1 Story Frame
+    ## 4 0923203160         3404 EMERALD DR, AMES     1 Story Frame
+    ## 5 0520440010       4507 EVEREST  AVE, AMES              <NA>
+    ## 6 0907275030       4512 HEMINGWAY DR, AMES     2 Story Frame
+    ##                        Occupancy  Sale Date Sale Price Multi Sale YearBuilt
+    ## 1 Single-Family / Owner Occupied 2022-08-12     181900       <NA>      1940
+    ## 2                    Condominium 2022-08-04     127100       <NA>      2006
+    ## 3 Single-Family / Owner Occupied 2022-08-15          0       <NA>      1951
+    ## 4                      Townhouse 2022-08-09     245000       <NA>      1997
+    ## 5                           <NA> 2022-08-03     449664       <NA>        NA
+    ## 6 Single-Family / Owner Occupied 2022-08-16     368000       <NA>      1996
+    ##   Acres TotalLivingArea (sf) Bedrooms FinishedBsmtArea (sf) LotArea(sf)  AC
+    ## 1 0.109                 1030        2                    NA        4740 Yes
+    ## 2 0.027                  771        1                    NA        1181 Yes
+    ## 3 0.321                 1456        3                  1261       14000 Yes
+    ## 4 0.103                 1289        4                   890        4500 Yes
+    ## 5 0.287                   NA       NA                    NA       12493  No
+    ## 6 0.494                 2223        4                    NA       21533 Yes
+    ##   FirePlace              Neighborhood
+    ## 1       Yes       (28) Res: Brookside
+    ## 2        No    (55) Res: Dakota Ridge
+    ## 3        No        (32) Res: Crawford
+    ## 4        No        (31) Res: Mitchell
+    ## 5        No (19) Res: North Ridge Hei
+    ## 6       Yes   (37) Res: College Creek
+
+``` r
+library(tibble)
+library(knitr)
+
+step1_table <- tibble(
+  Variable = c(
+    "Parcel ID",
+    "Address",
+    "Style",
+    "Occupancy",
+    "Sale Date",
+    "Sale Price",
+    "Multi Sale",
+    "YearBuilt",
+    "Acres",
+    "TotalLivingArea (sf)",
+    "Bedrooms",
+    "FinishedBsmtArea (sf)",
+    "LotArea (sf)",
+    "AC",
+    "FirePlace",
+    "Neighborhood"
+  ),
+  Type = c(
+    "Character",
+    "Character",
+    "Character",
+    "Character",
+    "Date",
+    "Numeric",
+    "Character",
+    "Numeric",
+    "Numeric",
+    "Numeric",
+    "Numeric",
+    "Numeric",
+    "Numeric",
+    "Character",
+    "Character",
+    "Character"
+  ),
+  Meaning = c(
+    "Unique property identifier",
+    "Property address",
+    "Building style",
+    "Type of occupancy",
+    "Date property was sold",
+    "Final sale price in dollars",
+    "Whether multiple sales occurred",
+    "Year property was built",
+    "Lot size in acres",
+    "Total above-ground living area in square feet",
+    "Number of bedrooms",
+    "Finished basement area in square feet",
+    "Lot size in square feet",
+    "Whether home has air conditioning",
+    "Whether home has fireplace",
+    "Neighborhood classification"
+  ),
+  Expected_Range = c(
+    "Unique values",
+    "Text",
+    "Categories",
+    "Categories",
+    "2017–2024+",
+    "0–1,000,000+",
+    "NA/Yes",
+    "1900–2024",
+    "0–5+",
+    "500–5000+",
+    "0–6",
+    "0–3000",
+    "1,000–50,000+",
+    "Yes/No",
+    "Yes/No",
+    "Categories"
+  )
+)
+
+kable(step1_table, caption = "Step 1: Dataset Variables Overview")
+```
+
+| Variable | Type | Meaning | Expected_Range |
+|:---|:---|:---|:---|
+| Parcel ID | Character | Unique property identifier | Unique values |
+| Address | Character | Property address | Text |
+| Style | Character | Building style | Categories |
+| Occupancy | Character | Type of occupancy | Categories |
+| Sale Date | Date | Date property was sold | 2017–2024+ |
+| Sale Price | Numeric | Final sale price in dollars | 0–1,000,000+ |
+| Multi Sale | Character | Whether multiple sales occurred | NA/Yes |
+| YearBuilt | Numeric | Year property was built | 1900–2024 |
+| Acres | Numeric | Lot size in acres | 0–5+ |
+| TotalLivingArea (sf) | Numeric | Total above-ground living area in square feet | 500–5000+ |
+| Bedrooms | Numeric | Number of bedrooms | 0–6 |
+| FinishedBsmtArea (sf) | Numeric | Finished basement area in square feet | 0–3000 |
+| LotArea (sf) | Numeric | Lot size in square feet | 1,000–50,000+ |
+| AC | Character | Whether home has air conditioning | Yes/No |
+| FirePlace | Character | Whether home has fireplace | Yes/No |
+| Neighborhood | Character | Neighborhood classification | Categories |
+
+Step 1: Dataset Variables Overview
 
 - Step 2 (Yash’s work): We choose “Sale Price” as the main variable for
   our work.
@@ -61,7 +181,7 @@ ggplot(ames, aes(x = `Sale Price`)) +
   )
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-1-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
 
 ``` r
 sum(ames$`Sale Price` == 0)
@@ -69,12 +189,16 @@ sum(ames$`Sale Price` == 0)
 
     ## [1] 2206
 
-- Step 3 continuation(Yash’s work): Upon plotting the histogram, I
-  noticed there were 2206 observations at \$0 for sale price. These
-  likely indicate placeholder, or missing values since houses are never
-  sold for free. Extreme outliers such as prices around 15-21 million
-  dollars are not shown in the plot to better visualize the overall
-  distribution of the sale prices, and to make the plot readable.
+- Step 3 continuation (Yash’s work): Upon plotting the histogram, I
+  noticed there were 2206 observations at 0 dollars for sale price.
+  These likely indicate placeholder, or missing values since houses are
+  never sold for free. Extreme outliers such as prices around 15-21
+  million dollars are not shown in the plot to better visualize the
+  overall distribution of the sale prices, and to make the plot
+  readable. After doing so, the distribution appears right skewed, with
+  most homes selling between approximately 100000 and 300000 dollars
+  respectively, with the most amount of houses selling at 200000
+  dollars.
 
 Step 4:  
 - Abhi’s work:
@@ -121,7 +245,7 @@ ggplot(ames, aes(x = `TotalLivingArea (sf)`)) +
     ## Warning: Removed 447 rows containing non-finite outside the scale range
     ## (`stat_bin()`).
 
-![](README_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
 
 The distribution is right-skewed. Most homes fall between 1,000 and
 2,500 square feet. A small number of homes are very large (above 4,000
@@ -168,7 +292,7 @@ ggplot(ames_clean, aes(x = `TotalLivingArea (sf)`, y = `Sale Price`)) +
 
     ## `geom_smooth()` using formula = 'y ~ x'
 
-![](README_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
 
 After removing homes with Sale Price equal to 0 and extreme outliers
 above \$1,000,000, the relationship between Total Living Area and Sale
@@ -180,14 +304,3 @@ extreme high sale price outliers observed in Step 3, as properties with
 greater square footage tend to command much higher prices and contribute
 to the right-skew. However, this variable does not explain the \$0 sale
 prices, which likely represent missing or incorrectly recorded data.
-
-======= - Step 3 continuation (Yash’s work): Upon plotting the
-histogram, I noticed there were 2206 observations at 0 dollars for sale
-price. These likely indicate placeholder, or missing values since houses
-are never sold for free. Extreme outliers such as prices around 15-21
-million dollars are not shown in the plot to better visualize the
-overall distribution of the sale prices, and to make the plot readable.
-After doing so, the distribution appears right skewed, with most homes
-selling between approximately 100000 and 300000 dollars respectively,
-with the most amount of houses selling at 200000 dollars. \>\>\>\>\>\>\>
-2b6da73b5e6a912482951ee07c14ad8ba0c40443
