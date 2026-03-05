@@ -51,6 +51,7 @@ As a team, we found the variables for the dataset:
 - Step 3 (Kate's work): The range is max - min which is 20500000 - 0 = 20500000. The data is skewed right with 2 significant outliers at ~2mil and ~1.5mil. However, most of the data falls below 200k.
 ```{r}
 library(classdata)
+data("ames")
 library(ggplot2)
 
 salePrice <- ames$`Sale Price`
@@ -60,3 +61,32 @@ ggplot(ames, aes(x = salePrice)) +
   geom_histogram(binwidth = 500000, color = "black", fill = "gray")
 
 ```
+
+
+Keaton's Work: 
+
+ The range of the variables Acres spans from 0.000 to 12.012, making the total range 12.012.
+```{r, message=FALSE, warning=FALSE}
+hist(ames$Acres,
+     breaks = seq(0, 15, by = 0.1),
+     main = "Histogram of Lot Size (Acres)",
+     xlab = "Acres",
+     col = "lightblue",
+     xlim = c(0, 5))
+
+library(ggplot2)
+
+ggplot(ames, aes(x = Acres, y = salePrice)) +
+  geom_point(alpha = 0.25, size = 1) +
+  geom_smooth(method = "lm", se = FALSE, color = "red") +
+  coord_cartesian(xlim = c(0, 2), ylim = c(0, 600000)) +
+  labs(title = "Sale Price vs Lot Size (Acres)",
+       x = "Acres",
+       y = "Sale Price ($)") +
+  theme_minimal()
+
+
+
+```
+
+Explanation: For the variable Acres, it is heavily right skewed. Almost every piece of data in the data set comes from under 3 acres. Within that almost every point is within 0.5 acres, with a long but sparse tail of high amounts of acres. When looking at the relationship between acres and sale price the correlation is weak. This is uprising because it would be expected for the price to increase as the amount of acres associated with the home. The relationship is weak due to the high volume of lower priced homes on limited land. When looking at the oddities found in step 3, the variable of acres can fix to highlight some. Homes that are on large pieces of can be the reasoning for why the price is so large. That the sale price is most related to the amount of land versus the actual home. While the acreage can account for some of the high outlines it does not account for the high consistent of lower values. 
