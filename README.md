@@ -193,7 +193,7 @@ sum(ames$`Sale Price` == 0)
 - Step 3 continuation (Yash’s work): Upon plotting the histogram, I
   noticed there were 2206 observations at 0 dollars for sale price.
   These likely indicate placeholder, or missing values since houses are
-  never sold for free. Extreme outliers such as prices around 15-21
+  never sold for free. Extreme outliers such as prices around 1.5-2
   million dollars are not shown in the plot to better visualize the
   overall distribution of the sale prices, and to make the plot
   readable. After doing so, the distribution appears right skewed, with
@@ -356,3 +356,79 @@ price is so large. That the sale price is most related to the amount of
 land versus the actual home. While the acreage can account for some of
 the high outlines it does not account for the high consistent of lower
 values.
+
+-Step 4 (Yash’s Work): I choose YearBuilt as a variable that may be
+related to Sale Price, since newer homes are often expected to sell at
+higher prices.
+
+``` r
+year_built <- ames$YearBuilt
+range(year_built[year_built > 0], na.rm = TRUE)
+```
+
+    ## [1] 1880 2022
+
+- After excluding values of 0, which likely represent placeholder or
+  missing values, the range of the variable YearBuilt is from 1880 to
+  2022.
+
+``` r
+ggplot(ames, aes(x = YearBuilt)) +
+  geom_histogram(binwidth = 5, color = "black", fill = "lightblue") +
+  coord_cartesian(xlim = c(1880, 2022)) +
+  labs(
+    title = "Distribution of Year Built",
+    x = "Year Built",
+    y = "Count"
+  )
+```
+
+    ## Warning: Removed 447 rows containing non-finite outside the scale range
+    ## (`stat_bin()`).
+
+![](README_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
+
+- The distribution of YearBuilt is left skewed. After limiting the
+  display range from 1880 to 2022 to remove invalid values such as 0,
+  the histogram shows that relatively few homes were built before 1900.
+  After 1900, construction of properties gradually increased and rose
+  significantly after the 1950s. The largest concentration of homes
+  appears from 1990 till 2022, suggesting that massive amounts of
+  properties in the dataset have been built in recent decades.
+
+``` r
+ames_year <- ames |>
+  dplyr::filter(`Sale Price` > 0,
+                `Sale Price` < 1000000,
+                YearBuilt > 0)
+
+ggplot(ames_year, aes(x = YearBuilt, y = `Sale Price`)) +
+  geom_point(alpha = 0.4) +
+  geom_smooth(method = "lm", se = FALSE, color = "blue") +
+  labs(
+    title = "Sale Price vs Year Built",
+    x = "Year Built",
+    y = "Sale Price ($)"
+  )
+```
+
+    ## `geom_smooth()` using formula = 'y ~ x'
+
+![](README_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
+
+- The scatterplot shows a weak-to-moderate positive linear relationship
+  between YearBuilt and Sale Price. In general, homes built more
+  recently tend to sell for higher prices compared to older homes. The
+  regression line shows a gradual upward trend, indicating that
+  properties constructed in later years are typically associated with
+  higher sale prices. However, there is a considerable variation in sale
+  prices across construction years, suggesting that other factors such
+  as total living area, neighborhood, and property features also
+  influence the final sale price. A few high-priced homes appear in the
+  scatterplot, with sale prices reaching \$1000000. This is consistent
+  with the extreme outliers we detected in Step 3. These properties are
+  likely larger or higher-quality homes built very recently. While these
+  outliers exist, they do not impact the general trend of the data. The
+  variable YearBuilt also does not explain the sale prices at 0 dollars
+  observed earlier in step 3, which likely represent missing or
+  incorrectly recorded data rather than actual property sales.
