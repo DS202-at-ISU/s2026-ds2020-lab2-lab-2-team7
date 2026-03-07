@@ -162,7 +162,7 @@ Step 1: Dataset Variables Overview
 
 - Step 3 (Kate’s work): The range is max - min which is 20500000 - 0
   = 20500000. The data is skewed right with 2 significant outliers at
-  ~2mil and ~1.5mil. However, most of the data falls below 200k.
+  ~2mil and ~1.5mil. The median is 170900 and the IQR is 280000.
 
 ``` r
 library(classdata)
@@ -432,3 +432,76 @@ ggplot(ames_year, aes(x = YearBuilt, y = `Sale Price`)) +
   variable YearBuilt also does not explain the sale prices at 0 dollars
   observed earlier in step 3, which likely represent missing or
   incorrectly recorded data rather than actual property sales.
+
+- Step 4 (Kate’s Work): I chose the variable Lot Area (sf) to be related
+  to sale price as the price of land and the amount of land a property
+  contains can directly affect the price of a home.
+
+Range:
+
+``` r
+lotArea <- ames$`LotArea(sf)`
+lotArea <- na.omit(lotArea)
+lotAreaRange <- range(lotArea)
+lotAreaRange
+```
+
+    ## [1]      0 523228
+
+The range is 523228-0 = 523228.
+
+``` r
+ames_sf <- ames |>
+  dplyr::filter(`Sale Price` > 0,
+                 `LotArea(sf)` > 0)
+
+  ggplot(ames_sf, aes(x = `LotArea(sf)`)) +
+  geom_histogram(binwidth = 1000, color = "black", fill = "gray") +
+  coord_cartesian(xlim = c(0, 60000)) +
+  labs(
+    title = "Distribution of Ames Lot Area",
+    x = "Lot Area (sf)",
+    y = "Number of Homes"
+  )
+```
+
+![](README_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
+
+``` r
+summary(lotArea)
+```
+
+    ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+    ##       0    6553    9575   11466   12088  523228
+
+The pattern of the Lot Area (sf) is skewed right with median of 9575 sf
+and an IQR of 4913 sf. There are a few outliers close to the maximum.
+
+``` r
+ggplot(ames_sf, aes(x = `LotArea(sf)`, y= `Sale Price`)) +
+  geom_point(alpha=0.3) +coord_cartesian(xlim = c(0, 60000), ylim = c(0,600000))
+```
+
+![](README_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
+
+``` r
+  labs(
+    title = "Distribution of Ames Lot Area",
+    x = "Lot Area (sf)",
+    y = "Number of Homes"
+  )
+```
+
+    ## <ggplot2::labels> List of 3
+    ##  $ x    : chr "Lot Area (sf)"
+    ##  $ y    : chr "Number of Homes"
+    ##  $ title: chr "Distribution of Ames Lot Area"
+
+The scatterplot (when reduced to the x/y constraints of the prior
+graphs) shows a r value close to 0 as the dots primarily form a large
+cluster from Lot Area = 1 to Lot Area = 200 and between Sale Price = 1
+to Sale Price = 6 million. To avoid any of the oddities we notice in
+Part 3, we removed all Sale Price and Lot Area values that were 0 as we
+determined those were placeholder values. This scatterplot indicates
+that the Sale Price can differ substantially even with similiar Lot
+Areas.

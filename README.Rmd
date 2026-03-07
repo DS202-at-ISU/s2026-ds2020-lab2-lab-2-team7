@@ -110,7 +110,7 @@ kable(step1_table, caption = "Step 1: Dataset Variables Overview")
 
 - Step 2 (Yash's work): We choose "Sale Price" as the main variable for our work.
 
-- Step 3 (Kate's work): The range is max - min which is 20500000 - 0 = 20500000. The data is skewed right with 2 significant outliers at ~2mil and ~1.5mil. However, most of the data falls below 200k.
+- Step 3 (Kate's work): The range is max - min which is 20500000 - 0 = 20500000. The data is skewed right with 2 significant outliers at ~2mil and ~1.5mil. The median is 170900 and the IQR is 280000.
 ```{r}
 library(classdata)
 data("ames")
@@ -261,3 +261,45 @@ ggplot(ames_year, aes(x = YearBuilt, y = `Sale Price`)) +
 ```
 
 - The scatterplot shows a weak-to-moderate positive linear relationship between YearBuilt and Sale Price. In general, homes built more recently tend to sell for higher prices compared to older homes. The regression line shows a gradual upward trend, indicating that properties constructed in later years are typically associated with higher sale prices. However, there is a considerable variation in sale prices across construction years, suggesting that other factors such as total living area, neighborhood, and property features also influence the final sale price. A few high-priced homes appear in the scatterplot, with sale prices reaching $1000000. This is consistent with the extreme outliers we detected in Step 3. These properties are likely larger or higher-quality homes built very recently. While these outliers exist, they do not impact the general trend of the data. The variable YearBuilt also does not explain the sale prices at 0 dollars observed earlier in step 3, which likely represent missing or incorrectly recorded data rather than actual property sales.
+
+- Step 4 (Kate's Work):
+I chose the variable Lot Area (sf) to be related to sale price as the price of land and the amount of land a property contains can directly affect the price of a home.
+
+Range:
+```{r}
+lotArea <- ames$`LotArea(sf)`
+lotArea <- na.omit(lotArea)
+lotAreaRange <- range(lotArea)
+lotAreaRange
+```
+The range is 523228-0 = 523228.
+
+```{r}
+
+ames_sf <- ames |>
+  dplyr::filter(`Sale Price` > 0,
+                 `LotArea(sf)` > 0)
+
+  ggplot(ames_sf, aes(x = `LotArea(sf)`)) +
+  geom_histogram(binwidth = 1000, color = "black", fill = "gray") +
+  coord_cartesian(xlim = c(0, 60000)) +
+  labs(
+    title = "Distribution of Ames Lot Area",
+    x = "Lot Area (sf)",
+    y = "Number of Homes"
+  )
+
+summary(lotArea)
+```
+The pattern of the Lot Area (sf) is skewed right with median of 9575 sf and an IQR of 4913 sf. There are a few outliers close to the maximum.
+```{r}
+ggplot(ames_sf, aes(x = `LotArea(sf)`, y= `Sale Price`)) +
+  geom_point(alpha=0.3) +coord_cartesian(xlim = c(0, 60000), ylim = c(0,600000))
+  labs(
+    title = "Distribution of Ames Lot Area",
+    x = "Lot Area (sf)",
+    y = "Number of Homes"
+  )
+```
+
+The scatterplot (when reduced to the x/y constraints of the prior graphs) shows a r value close to 0 (indicating no linear trend) as the dots primarily form a large cluster from Lot Area = 1 to Lot Area = 200 and between Sale Price = 1 to Sale Price = 6 million. To avoid any of the oddities we notice in Part 3, we removed all Sale Price and Lot Area values that were 0 as we determined those were placeholder values. This scatterplot indicates that the Sale Price can differ substantially even with similiar Lot Areas.
